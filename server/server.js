@@ -6,17 +6,14 @@ const taskRoutes = require("./routes/taskRoutes");
 const statsRoutes = require("./routes/statsRoutes");
 const cors = require("cors");
 
-
 dotenv.config();
 connectDB();
 
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:3000", 
-  "http://192.168.29.59:3000", 
-  "http://192.168.1.101:3000", 
-  "https://your-production-domain.com", 
+  "https://to-do-app-2-3pfb.onrender.com",
+  process.env.CLIENT_URL,
 ];
 
 app.use(
