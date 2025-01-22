@@ -9,23 +9,19 @@ import {
   Button,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { createTask } from "../api/api";
 import toast from "react-hot-toast";
 
-const AddTodoButton = () => {
-  const [openDialog, setOpenDialog] = useState(false); // State for opening/closing the dialog
-  const [title, setTitle] = useState(""); // State for todo title
-  const [description, setDescription] = useState(""); // State for todo description
-  const token = useSelector((state) => state.auth.token); // Getting token from Redux state
+const AddTodoButton = ({ tasks, setTasks }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const token = useSelector((state) => state.auth.token);
 
-  const dispatch = useDispatch();
-
-  // Toggle the dialog open/close
   const handleDialogOpen = () => setOpenDialog(true);
   const handleDialogClose = () => setOpenDialog(false);
 
-  // Handle form input change
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
 
@@ -34,10 +30,14 @@ const AddTodoButton = () => {
     try {
       const response = await createTask(title, description, token);
       if (response.data.success) {
+        // Optimistic UI update
+        const newTask = response.data.task; // Assuming the response includes the newly created task
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+
         setOpenDialog(false);
         toast.success(response.data.message);
-        setTitle(""); // Reset title input
-        setDescription(""); // Reset description input
+        setTitle("");
+        setDescription("");
       }
     } catch (error) {
       console.error("Error creating task:", error);
@@ -47,9 +47,23 @@ const AddTodoButton = () => {
 
   return (
     <>
-      {/* Add Todo Button with Add Icon */}
-      <IconButton  onClick={handleDialogOpen}>
-        <AddIcon />
+      <IconButton
+        onClick={handleDialogOpen}
+        sx={{
+          color: "white",
+          fontWeight: "bold",
+          padding: 1.5,
+          borderRadius: "50%",
+          backgroundColor: "#1976d2",
+          "&:hover": {
+            backgroundColor: "#1565c0",
+            transform: "scale(1.1)",
+            transition: "transform 0.2s, background-color 0.3s",
+          },
+          transition: "background-color 0.3s",
+        }}
+      >
+        <AddIcon sx={{ fontSize: 30 }} />
       </IconButton>
 
       {/* Add Todo Dialog */}
@@ -85,6 +99,8 @@ const AddTodoButton = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+  
     </>
   );
 };

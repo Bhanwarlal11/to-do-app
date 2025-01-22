@@ -3,7 +3,9 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const statsRoutes = require("./routes/statsRoutes");
 const cors = require("cors");
+
 
 dotenv.config();
 connectDB();
@@ -34,6 +36,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/stats", statsRoutes);
 
 app.get("/", (req, res) => {
   res.send("welcome to To-do list app");

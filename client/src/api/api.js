@@ -1,7 +1,8 @@
 import axios from 'axios';
+console.log("process.env.REACT_APP_API_URL",process.env.REACT_APP_API_URL);
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -51,3 +52,25 @@ export const deleteTask = (taskId, token) => {
     },
   });
 };
+
+
+
+// get basic stats data
+export const getTaskStats = (token) => {
+  return api.get('/stats/tasks', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+// Fetch Pie Chart Data
+export const getPieChartData = (token) => {
+  return api.get('/stats/pie-chart', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+

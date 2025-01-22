@@ -10,9 +10,10 @@ import {
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { getTasks, updateTask, deleteTask } from "../api/api.js";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const TaskTabs = () => {
-  const [tasks, setTasks] = useState([]);
+const TaskTabs = ({tasks,setTasks}) => {
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
   const [editingTask, setEditingTask] = useState(null);
@@ -144,7 +145,13 @@ const TaskTabs = () => {
               </>
             ) : (
               <>
-                <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                <span
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                    textDecoration: task.isCompleted ? "line-through" : "none",
+                  }}
+                >
                   {task.title}
                 </span>
                 <p style={{ color: "#757575" }}>{task.description}</p>
@@ -168,42 +175,49 @@ const TaskTabs = () => {
               Save
             </Button>
           ) : (
-            <div style={{ display: "flex", gap: "8px", alignItems:"center" }}>
-              <div
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "50%",
-                  backgroundColor: task.isCompleted ? "green" : "red",
-                  marginRight: "16px",
-                }}
-              ></div>
-              <Button
-                onClick={() => handleEdit(task)}
-                color="primary"
-                variant="outlined"
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <Box
                 sx={{
-                  transition: "all 0.2s ease",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                  },
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", sm: "repeat(2, auto)" }, // Single column on small screens, two columns on larger screens
+                  gap: "8px", // Space between buttons
+                  alignItems: "center",
                 }}
               >
-                Edit
-              </Button>
-              <Button
-                onClick={() => handleDelete(task._id)}
-                color="secondary"
-                variant="outlined"
-                sx={{
-                  transition: "all 0.2s ease",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                  },
-                }}
-              >
-                Delete
-              </Button>
+                {!task.isCompleted ? (
+                  <Button
+                    onClick={() => handleEdit(task)}
+                    color="primary"
+                    variant="text"
+                    sx={{
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      transition: "all 0.2s ease",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                ) : null}
+
+                <Button
+                  onClick={() => handleDelete(task._id)}
+                  color="secondary"
+                  variant="text"
+                  sx={{
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                    },
+                  }}
+                >
+                  <DeleteIcon />
+                </Button>
+              </Box>
             </div>
           )}
         </div>

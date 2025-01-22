@@ -11,9 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/authSlice";
 import AddTodoButton from "./AddTodoButton";
-import { Box } from "@mui/material";
 
-const Navbar = () => {
+const Navbar = ({tasks,setTasks}) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -27,8 +26,8 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const handleProfile = () => {
-    navigate("/profile");
+  const handleStats = () => {
+    navigate("/stats");
     handleMenuClose();
   };
 
@@ -49,7 +48,7 @@ const Navbar = () => {
         <Typography
           variant="h6"
           component="div"
-          sx={{ flexGrow: 1, cursor: "pointer" }}
+          sx={{ flexGrow: 1, cursor: "pointer", fontWeight: "bold" }}
           onClick={() => navigate("/")}
         >
           My To-Do
@@ -58,19 +57,19 @@ const Navbar = () => {
         {/* Conditional Rendering based on Authentication */}
         {isAuthenticated ? (
           <>
-            <AddTodoButton />
+            <AddTodoButton tasks={tasks} setTasks={setTasks} />
             <IconButton onClick={handleMenuOpen}>
               <Avatar sx={{ bgcolor: "#ff5722" }}>A</Avatar>
             </IconButton>
 
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={handleStats}>Stats</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
           </>
         ) : (
           // Sign In Button
