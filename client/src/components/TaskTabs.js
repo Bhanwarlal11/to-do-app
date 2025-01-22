@@ -13,7 +13,7 @@ import { getTasks, updateTask, deleteTask } from "../api/api.js";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const TaskTabs = ({tasks,setTasks}) => {
+const TaskTabs = ({ tasks, setTasks }) => {
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
   const [editingTask, setEditingTask] = useState(null);
@@ -226,6 +226,40 @@ const TaskTabs = ({tasks,setTasks}) => {
   );
 
   return (
+    // <Box sx={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
+    //   <Tabs
+    //     value={tabValue}
+    //     onChange={handleTabChange}
+    //     centered
+    //     sx={{ marginBottom: "16px" }}
+    //   >
+    //     <Tab label="Pending" />
+    //     <Tab label="Completed" />
+    //   </Tabs>
+
+    //   <div style={{ marginTop: "16px" }}>
+    //     {loading ? (
+    //       <div
+    //         style={{
+    //           display: "flex",
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //         }}
+    //       >
+    //         <CircularProgress />
+    //       </div>
+    //     ) : (
+    //       <div>
+    //         {tasks
+    //           .filter((task) =>
+    //             tabValue === 0 ? !task.isCompleted : task.isCompleted
+    //           )
+    //           .map(renderTask)}
+    //       </div>
+    //     )}
+    //   </div>
+    // </Box>
+
     <Box sx={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
       <Tabs
         value={tabValue}
@@ -250,11 +284,27 @@ const TaskTabs = ({tasks,setTasks}) => {
           </div>
         ) : (
           <div>
-            {tasks
-              .filter((task) =>
-                tabValue === 0 ? !task.isCompleted : task.isCompleted
-              )
-              .map(renderTask)}
+            {tasks.filter((task) =>
+              tabValue === 0 ? !task.isCompleted : task.isCompleted
+            ).length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  color: "#757575",
+                  marginTop: "16px",
+                }}
+              >
+                {tabValue === 0
+                  ? "You don't have any pending tasks."
+                  : "You don't have any completed tasks."}
+              </div>
+            ) : (
+              tasks
+                .filter((task) =>
+                  tabValue === 0 ? !task.isCompleted : task.isCompleted
+                )
+                .map(renderTask)
+            )}
           </div>
         )}
       </div>
