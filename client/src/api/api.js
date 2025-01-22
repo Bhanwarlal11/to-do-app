@@ -11,15 +11,15 @@ const api = axios.create({
 
 // register user
 export const registerUser = (username, email, password) => 
-api.post('/auth/register', { username, email, password });
+api.post('/api/auth/register', { username, email, password });
 
 // Login user
 export const SigninUser = (email, password) =>
-  api.post('/auth/login', { email, password });
+  api.post('/api/auth/login', { email, password });
 
 // Create a task
 export const createTask = (title, description, token) => {
-  return api.post('/tasks', {title, description}, {
+  return api.post('/api/tasks', {title, description}, {
     headers: {
       Authorization: `Bearer ${token}`, 
     },
@@ -28,7 +28,7 @@ export const createTask = (title, description, token) => {
 
 // Get tasks
 export const getTasks = (token) => {
-  return api.get('/tasks', {
+  return api.get('/api/tasks', {
     headers: {
       Authorization: `Bearer ${token}`, 
     },
@@ -37,7 +37,7 @@ export const getTasks = (token) => {
 
 // Update a task
 export const updateTask = (taskId, taskData, token) => {
-  return api.put(`/tasks/${taskId}`, taskData, {
+  return api.put(`/api/tasks/${taskId}`, taskData, {
     headers: {
       Authorization: `Bearer ${token}`, 
     },
@@ -46,7 +46,7 @@ export const updateTask = (taskId, taskData, token) => {
 
 // Delete a task
 export const deleteTask = (taskId, token) => {
-  return api.delete(`/tasks/${taskId}`, {
+  return api.delete(`/api/tasks/${taskId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -57,7 +57,7 @@ export const deleteTask = (taskId, token) => {
 
 // get basic stats data
 export const getTaskStats = (token) => {
-  return api.get('/stats/tasks', {
+  return api.get('/api/stats/tasks', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -66,7 +66,7 @@ export const getTaskStats = (token) => {
 
 // Fetch Pie Chart Data
 export const getPieChartData = (token) => {
-  return api.get('/stats/pie-chart', {
+  return api.get('/api/stats/pie-chart', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
