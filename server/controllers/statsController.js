@@ -1,11 +1,12 @@
-const Task = require('../models/Task'); // Assuming Task model is in models/Task
-const mongoose = require('mongoose');
+const Task = require('../models/Task');
 
 // Function for Total Tasks Created, Pending, and Completed
 const getTaskStats = async (req, res) => {
   try {
-    const totalTasks = await Task.countDocuments({});
-    const totalCompleted = await Task.countDocuments({ isCompleted: true });
+    const userId = req.user._id; // Get the current user's ID from req.user
+
+    const totalTasks = await Task.countDocuments({ userId });
+    const totalCompleted = await Task.countDocuments({ userId, isCompleted: true });
     const totalPending = totalTasks - totalCompleted;
 
     res.json({
@@ -23,8 +24,10 @@ const getTaskStats = async (req, res) => {
 // Function for Pie Chart Data
 const getPieChartData = async (req, res) => {
   try {
-    const totalTasks = await Task.countDocuments({});
-    const totalCompleted = await Task.countDocuments({ isCompleted: true });
+    const userId = req.user._id; // Get the current user's ID from req.user
+
+    const totalTasks = await Task.countDocuments({ userId });
+    const totalCompleted = await Task.countDocuments({ userId, isCompleted: true });
     const totalPending = totalTasks - totalCompleted;
 
     res.json({
@@ -36,8 +39,6 @@ const getPieChartData = async (req, res) => {
     res.status(500).json({ message: 'Error fetching pie chart data.' });
   }
 };
-
-
 
 module.exports = {
   getTaskStats,
