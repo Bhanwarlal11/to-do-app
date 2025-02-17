@@ -1,4 +1,4 @@
-MONGO_URI=mongodb+srv://bhanwar:bhanwar@cluster0.slzef2i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-JWT_SECRET=34d88845b173f79c5d7fc7bb46587afaa1e3ffb4a1010e2ae3375c7b9c07523ec5cadf6fdedd90c7e0e603bf0cd4d5a0eaab49fba2a4a0bb90b916f9f563259f
-PORT=5000
-CLIENT_URL=http://localhost:3000
+MONGO_URI=
+JWT_SECRET=
+PORT=
+CLIENT_URL=
